@@ -15,30 +15,13 @@ public class UserAuthentificationConroller {
     @Autowired 
     UserAuthentificationService userAuthentificationService; 
 
-    //Check if email is valid
-    public String ValidateUserCredential(User user) {
-
-        if(user.getFirstName()==""|user.getLastName()==""|user.getPassword()==""|user.getEmail()=="")
-                return "\""+"Fields must not be empty"+"\"";
-        //Email must be unique for each User
-        else if (userAuthentificationService.findUserByEmail(user.getEmail())!=null)
-                return "\""+"user already exists.If you forget your password you can reset it"+"\"";
-        else
-                return "valid user";
-     
-    }
+   
     
     //USer Registration
     @PostMapping("/registration")
     public String registration (@RequestBody User user)
-    {
-             
-            if (ValidateUserCredential(user)=="valid user"){
-                userAuthentificationService.saveUserCredential(user);
-                return "\"" +"user registred successfully"+"\"" ; 
-            }
-            else
-                return ValidateUserCredential(user);
+    {  
+            return userAuthentificationService.saveUserCredential(user);
             
     }
 

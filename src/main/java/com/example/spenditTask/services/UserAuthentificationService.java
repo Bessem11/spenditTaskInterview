@@ -11,16 +11,27 @@ public class UserAuthentificationService {
     @Autowired
     UserRepository userRepository;
 
-    public void saveUserCredential(User user){
+    public String ValidateUserCredential(User user) {
 
-        userRepository.save(user);
-        
+        if(user.getFirstName()==""|user.getLastName()==""|user.getPassword()==""|user.getEmail()=="")
+                return "\""+"Fields must not be empty"+"\"";
+        //Email must be unique for each User
+        else if (userRepository.findByEmail(user.getEmail())!=null)
+                return "\""+"user already exists.If you forget your password you can reset it"+"\"";
+        else
+                return "valid user";
+     
     }
 
-    public User findUserByEmail(String email){
+    public String saveUserCredential(User user){
 
-        return userRepository.findByEmail(email);
-        
+        if (ValidateUserCredential(user)=="valid user"){
+            userRepository.save(user);
+            return "\"" +"user registred successfully"+"\"" ; 
+        }
+        else
+            return ValidateUserCredential(user);
     }
+
     
 }
