@@ -23,15 +23,23 @@ public class UserAuthentificationConroller {
             return userAuthentificationService.saveUserCredential(user);
             
     }
-    @PostMapping("/login")
-    public String login(@RequestBody User user){
+    @PutMapping("/login")
+    public Object login(@RequestBody User user){
             return userAuthentificationService.logUserIn(user.getEmail(), user.getPassword());
     }
     @PutMapping("/logout")
     public String logout(@RequestBody User user){
             return userAuthentificationService.logUserOut(user.getEmail());
     }
-  
+    @PutMapping("/changepassword")
+    public String changePassword(@RequestBody User user){
+            return userAuthentificationService.changeUserPassword(user.getEmail(),user.getPassword());
+    }
+    @PostMapping("/resetPassword")
+    public String resetPassword(@RequestBody User user){
+            return userAuthentificationService.resetUserPassword(user.getEmail());
+    }
+
 
 
 }

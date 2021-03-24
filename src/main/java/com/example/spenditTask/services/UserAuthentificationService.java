@@ -35,29 +35,77 @@ public class UserAuthentificationService {
             return ValidateUserCredential(user);
     }
 
-    public String logUserIn(String email,String password){
+    public Object logUserIn(String email,String password){
 
-        User user=userRepository.findByEmailAndPassword(email,password);
-        if (user==null)
-            return "\"" +"email or password incorrect"+"\"" ;
-        else{
-            user.setLoggedIn(true);
-            return "\"" + "you are logged In !" + "\"" ;
+        try{
+            User user=userRepository.findByEmailAndPassword(email,password);
+            if (user==null)
+                return "\"" +"email or password incorrect"+"\"" ;
+            else{
+                user.setLoggedIn(true);
+                userRepository.save(user);
+                user.setPassword("");
+                return user;
+            }
+        }
+        catch(NullPointerException e)
+        {
+            return e.getMessage();
         }
     }
 
     public String logUserOut(String email){
 
-        User user=userRepository.findByEmail(email);
-        if(user.isLoggedIn()==false)
-            return "\"" + "you are already logged out !" + "\"" ;
-        else {
-        user.setLoggedIn(false);
-        userRepository.save(user);
-        return "\"" + "you are logged out !" + "\"" ;
+        try{
+            User user=userRepository.findByEmail(email);
+            if(user.isLoggedIn()==false)
+                return "\"" + "you are already logged out !" + "\"" ;
+            else {
+                user.setLoggedIn(false);
+                userRepository.save(user);
+                return "\"" + "you are logged out !" + "\"" ;
+            }
         }
+        catch(NullPointerException e)
+        {
+            return e.getMessage();
+        }
+
+        
 
     }
 
     
+    public String changeUserPassword(String email,String password){
+
+        try{
+            User user=userRepository.findByEmail(email);
+            user.setPassword(password);;
+            userRepository.save(user);
+            return "\"" + "Password Changed !" + "\"" ;
+        }
+        catch(NullPointerException e)
+        {
+            return e.getMessage();
+        }
+
+
+    }
+
+    public String resetUserPassword(String email){
+
+        try{
+            User user=userRepository.findByEmail(email);
+            if(user ==null)
+                return "\"" + "No user with this email exists !" + "\"" ;
+            else
+                return "\"" + "an email was sent to reset your password !" + "\"" ;
+        }
+        catch(NullPointerException e)
+        {
+            return e.getMessage();
+        }
+
+    }
+
 }
