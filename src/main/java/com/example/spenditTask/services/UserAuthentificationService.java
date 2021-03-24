@@ -26,11 +26,22 @@ public class UserAuthentificationService {
     public String saveUserCredential(User user){
 
         if (ValidateUserCredential(user)=="valid user"){
+            //After registration user must Login 
+            user.setLoggedIn(false);
             userRepository.save(user);
             return "\"" +"user registred successfully"+"\"" ; 
         }
         else
             return ValidateUserCredential(user);
+    }
+
+    public String logUserIn(String email,String password){
+
+        if (userRepository.findByEmailAndPassword(email,password)==null)
+            return "\"" +"email or password incorrect"+"\"" ;
+        else{
+            return "\"" + "you are logged In !" + "\"" ;
+        }
     }
 
     

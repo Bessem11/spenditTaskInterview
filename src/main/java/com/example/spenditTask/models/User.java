@@ -21,6 +21,19 @@ public class User {
     private String email;
     @Column 
     private String password;
+    @Column 
+    private boolean loggedIn;
+
+
+    public boolean isLoggedIn() {
+        return this.loggedIn;
+    }
+
+
+    public void setLoggedIn(boolean loggedIn) {
+        this.loggedIn = loggedIn;
+    }
+
 
 
     public String getFirstName() {

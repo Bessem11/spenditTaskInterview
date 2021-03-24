@@ -24,5 +24,11 @@ public class UserAuthentificationConroller {
             return userAuthentificationService.saveUserCredential(user);
             
     }
+    @PostMapping("login")
+    public String login(@RequestBody User user){
+            return userAuthentificationService.logUserIn(user.getEmail(), user.getPassword());
+    }
+  
+
 
 }
