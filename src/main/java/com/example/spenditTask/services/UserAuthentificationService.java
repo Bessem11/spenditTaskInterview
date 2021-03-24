@@ -37,11 +37,26 @@ public class UserAuthentificationService {
 
     public String logUserIn(String email,String password){
 
-        if (userRepository.findByEmailAndPassword(email,password)==null)
+        User user=userRepository.findByEmailAndPassword(email,password);
+        if (user==null)
             return "\"" +"email or password incorrect"+"\"" ;
         else{
+            user.setLoggedIn(true);
             return "\"" + "you are logged In !" + "\"" ;
         }
+    }
+
+    public String logUserOut(String email){
+
+        User user=userRepository.findByEmail(email);
+        if(user.isLoggedIn()==false)
+            return "\"" + "you are already logged out !" + "\"" ;
+        else {
+        user.setLoggedIn(false);
+        userRepository.save(user);
+        return "\"" + "you are logged out !" + "\"" ;
+        }
+
     }
 
     
