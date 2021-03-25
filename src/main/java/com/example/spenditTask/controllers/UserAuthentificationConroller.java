@@ -4,12 +4,13 @@ import com.example.spenditTask.models.User;
 import com.example.spenditTask.services.UserAuthentificationService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class UserAuthentificationConroller {
 
@@ -35,7 +36,7 @@ public class UserAuthentificationConroller {
     public String changePassword(@RequestBody User user){
             return userAuthentificationService.changeUserPassword(user.getEmail(),user.getPassword());
     }
-    @PostMapping("/resetPassword")
+    @PostMapping("/resetpassword")
     public String resetPassword(@RequestBody User user){
             return userAuthentificationService.resetUserPassword(user.getEmail());
     }
